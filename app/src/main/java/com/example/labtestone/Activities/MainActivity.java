@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-       // mRecyclerView = findViewById(R.id.rv_user_list);
+        mRecyclerView = findViewById(R.id.rv_user_list);
 
     }
 
@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeAdapter() {
         // set up the RecyclerView
-        mRecyclerView = findViewById(R.id.rv_user_list);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 

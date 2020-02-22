@@ -14,11 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.labtestone.Activities.AddUpdateActivity;
 import com.example.labtestone.Models.UserData;
 import com.example.labtestone.R;
-import com.example.labtestone.constants.Constants;
 import com.example.labtestone.database.AppDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.labtestone.Activities.AddUpdateActivity.UPDATE_PERSON_ID;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
@@ -42,12 +43,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        final UserData user = mUserList.get(position);
 
-            holder.name.setText(mUserList.get(position).getName());
-        holder.age.setText(String.valueOf(mUserList.get(position).getAge()));
-        holder.tutionfee.setText(String.valueOf(mUserList.get(position).getTuitionFee()));
-        holder.startdate.setText(mUserList.get(position).getStartDate());
+        holder.name.setText(user.getName());
+        holder.age.setText(String.valueOf(user.getAge()));
+        holder.tutionfee.setText(String.valueOf(user.getTuitionFee()));
+        holder.startdate.setText(user.getStartDate());
 
+        holder.editImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int elementId = user.getId();
+                Intent intent = new Intent(mContext, AddUpdateActivity.class);
+                intent.putExtra(UPDATE_PERSON_ID, elementId);
+                mContext.startActivity(intent);
+            }
+        });
         //  holder.myTextView.setText(user.getAge());
     }
 
@@ -59,6 +70,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         return mUserList.size();
     }
+
     public void setTasks(List<UserData> usersList) {
         mUserList = usersList;
         notifyDataSetChanged();
@@ -75,6 +87,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         ImageView editImage;
 
         AppDatabase mdb;
+
         ViewHolder(View itemView) {
             super(itemView);
             mdb = AppDatabase.getInstance(mContext);
@@ -84,15 +97,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             startdate = itemView.findViewById(R.id.person_startdate);
             editImage = itemView.findViewById(R.id.edit_Image);
 
-            editImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int elementId = mUserList.get(getAdapterPosition()).getId();
-                    Intent i = new Intent(mContext, AddUpdateActivity.class);
-                    i.putExtra(Constants.UPDATE_Person_Id, elementId);
-                    mContext.startActivity(i);
-                }
-            });
         }
 
     }
